@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIGHTSYNC - Image Verification</title>
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+
+  <h1>SIGHTSYNC</h1>
+  <p>Upload your image and description to get a verification response</p>
+  
+  <form id="verify-form">
+    <!-- Image Upload Card -->
+    <div class="card">
+      <div class="section-header">Image Upload</div>
+      <label for="imageInput" class="upload-label">
+        <div class="upload-icon">📸</div>
+        <div class="upload-text">Click to select image</div>
+        <div class="upload-subtext">PNG, JPG, GIF up to 10MB</div>
+      </label>
+      <input type="file" id="imageInput" accept="image/*" required />
+      <img id="imagePreview" class="image-preview" alt="Preview" />
+    </div>
+
+    <!-- Description Card -->
+    <div class="card">
+      <div class="section-header">Image Description</div>
+      <textarea 
+        id="textInput" 
+        placeholder="Describe the image in detail...
+What do you expect to see in the image?
+Are there specific details to verify?"
+        required
+      ></textarea>
+      <button type="submit">Verify Match</button>
+    </div>
+
+    <!-- Results Card -->
+    <div class="card">
+      <div class="section-header">Verification Results</div>
+      <pre id="result"></pre>
+    </div>
+  </form>
+
+  <script src="main.ts"></script>
+  
+  <!-- <script>
+    // Preview uploaded image
+    document.getElementById('imageInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const preview = document.getElementById('imagePreview');
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+  </script> -->
+</body>
+</html>
