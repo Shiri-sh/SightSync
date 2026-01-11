@@ -1,17 +1,19 @@
-const form = document.getElementById("verify-form") as HTMLFormElement;
-const imageInput = document.getElementById("imageInput") as HTMLInputElement;
-const textInput = document.getElementById("textInput") as HTMLTextAreaElement;
-const result = document.getElementById("result") as HTMLElement;
+const form = document.getElementById("verify-form");
+const imageInput = document.getElementById("imageInput");
+const textInput = document.getElementById("textInput");
+const result = document.getElementById("result");
+const preview = document.getElementById('imagePreview');
 
 imageInput.addEventListener('change', function(e) {
-      const input = e.target as HTMLInputElement | null;
-      const file = input?.files?.[0] as File | undefined;
+      const input = e.target;
+      const file = input?.files?.[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(ev) {
-          const preview = document.getElementById('imagePreview') as HTMLImageElement;
+          console.log(ev.target?.result);
+          console.log(preview);
           if (preview) {
-            preview.src = ev.target?.result as string;
+            preview.src = ev.target?.result;
             preview.style.display = 'block';
           }
         }
