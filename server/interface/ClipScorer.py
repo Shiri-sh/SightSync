@@ -1,8 +1,8 @@
 from PIL import Image
-
 import requests
-
 from transformers import CLIPProcessor, CLIPModel
+
+#set HF_HUB_DISABLE_SSL_VERIFICATION=1
 
 class ClipScorer:
     

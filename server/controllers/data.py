@@ -6,6 +6,7 @@ async def upload_img(
     image: UploadFile=File(...)
 ):
     try:
+        print(image.filename)
         path = f"{DIR_PATH}/{image.filename}"
         with open(path, "wb") as f:
             f.write(await image.read())

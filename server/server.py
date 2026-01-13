@@ -9,13 +9,14 @@ from routes.data import router as data_router
 from interface.ClipScorer import ClipScorer
 from contextlib import asynccontextmanager
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    app.state.clip_scorer = ClipScorer()
-    yield
-    app.state.clip_scorer = None
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#     app.state.clip_scorer = ClipScorer()
+#     yield
+#     app.state.clip_scorer = None
 
-app = FastAPI(title="SIGHTSYNC MVP", lifespan=lifespan)
+# app = FastAPI(title="SIGHTSYNC MVP", lifespan=lifespan)
+app = FastAPI(title="SIGHTSYNC MVP")
 
 app.add_middleware(
     CORSMiddleware,
