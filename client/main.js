@@ -26,14 +26,13 @@ form.addEventListener("submit", async (e) => {
 
   if (!imageInput.files || imageInput.files.length === 0) return;
 
-  // const formData = new FormData();
-  // formData.append("image", imageInput.files[0]);
-  // formData.append("text", textInput.value);
-
   try{
+      const uploadForm = new FormData();
+      uploadForm.append('image', imageInput.files[0]);
+
       const dataResponse= await fetch("http://localhost:8000/data/upload_img", {
       method: "POST",
-      body: {image: imageInput.files[0]},
+      body: uploadForm,
     });
       const data=await dataResponse.json();
       if(data.status==="ok"){
@@ -51,7 +50,8 @@ form.addEventListener("submit", async (e) => {
     try {
       const clipScoreResponse = await fetch("http://localhost:8000/clip/clip_score", {
         method: "POST",
-        body: {image: filename, text: textInput.value},
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({image: filename, text: textInput.value}),
       });
       const data = await clipScoreResponse.json();
       if(data.status==="ok"){

@@ -5,3 +5,4 @@ docker-compose.override.yml
 
 # Ignore Python requirements
 requirements.txt
+images/
