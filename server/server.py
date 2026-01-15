@@ -1,4 +1,10 @@
 
+import os, certifi, ssl
+os.environ["SSL_CERT_FILE"] = certifi.where()
+os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
+os.environ["HF_HUB_DISABLE_SSL_VERIFICATION"] = "1"
+ssl._create_default_https_context = ssl._create_unverified_context
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
