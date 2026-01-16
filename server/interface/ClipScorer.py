@@ -25,5 +25,8 @@ class ClipScorer:
         #     outputs = model(**inputs)
         outputs = self.model(**inputs)
         logits_per_image_text = outputs.logits_per_image
-        print(logits_per_image_text)
-        return logits_per_image_text
+        print("logits_per_image_text:", logits_per_image_text)
+
+        probs=logits_per_image_text.softmax(dim=1)
+        print("Probabilities:", probs)
+        return probs
