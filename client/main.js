@@ -38,13 +38,7 @@ async function clipVerifyScore(filename, text) {
       const data = await clipScoreResponse.json();
 
       console.log("Received data:", data);
-
-      if(data.status==="ok"){
-          result.textContent = JSON.stringify(data, null, 2);
-      }
-      else{
-          throw new Error(data.message);
-      }
+      return data;
     }catch (error){
         console.log("Error getting clip score:", error.message);
     }
@@ -73,7 +67,13 @@ form.addEventListener("submit", async (e) => {
   const text = textInput.value;
 
   if (filename && text) {
-    await clipVerifyScore(filename, text);
+    const data = await clipVerifyScore(filename, text);
+    if (data.status!=="error"){ 
+      result.textContent = data.status;
+    }
+    else{
+      result.textContent = data.message;
+    }
   }
   else{
      alert("Please provide both an image and text.");
