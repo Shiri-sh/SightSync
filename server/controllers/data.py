@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from PIL import Image
-
+import os
 DIR_PATH = "images/"
 async def upload_img(
     image: UploadFile=File(...)

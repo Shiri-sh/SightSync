@@ -9,8 +9,6 @@ from services import get_status_from_score
 IMAGE_DIR = "images/"
 async def clip_score(
     request: Request,
-    # image_name: str,
-    # text: str
     data: dict
 ):
     try:
