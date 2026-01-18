@@ -30,37 +30,24 @@
       <textarea 
         id="textInput" 
         placeholder="Describe the image in detail...
-What do you expect to see in the image?
-Are there specific details to verify?"
+        What do you expect to see in the image?
+        Are there specific details to verify?"
         
         required
-      >two girls smiling, holding hands, one girl is taller than the other</textarea>
+      >two women standing next to each other woman</textarea>
       <button type="submit">Verify Match</button>
     </div>
 
     <!-- Results Card -->
     <div class="card">
-      <div class="section-header">Verification Results</div>
-      <pre id="result"></pre>
+      <div class="section-header">Verification Results
+      </div>
+      <div id="clip_score"></div>
+      <div id="blip_text"></div>
     </div>
   </form>
 
   <script src="main.js"></script>
   
-  <!-- <script>
-    // Preview uploaded image
-    document.getElementById('imageInput').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const preview = document.getElementById('imagePreview');
-          preview.src = e.target.result;
-          preview.style.display = 'block';
-        }
-        reader.readAsDataURL(file);
-      }
-    });
-  </script> -->
 </body>
 </html>
