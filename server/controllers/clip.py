@@ -12,9 +12,6 @@ async def clip_score(
     data: dict
 ):
     try:
-        print("data:", data)
-        print("image_name:", data['image_name'])
-        print("text:", data['text'])
         
         img = Image.open(f"{IMAGE_DIR}/{data['image_name']}")
 
@@ -25,7 +22,7 @@ async def clip_score(
             "status": "ok",
             "filename": data['image_name'],
             "text_received": data['text'],
-            "status": status_score,
+            "analyze_score": status_score,
             "score": score
         }
     except Exception as e:
