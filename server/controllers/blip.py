@@ -1,19 +1,19 @@
 from fastapi import FastAPI, UploadFile, File, Form,Request
 
 from PIL import Image
-
+IMAGE_DIR = "images/"
 
 async def blip_img_anlz(
-    image_name: str=Form(...),
-    text: str = Form(...),
-    score: float = Form(...)
+    request: Request,
+    data: dict
 ):
-    img = Image.open(image_name)
-    
-    return {
-        "status": "ok",
-        "filename": image_name,
-        "text_received": text,
-        "text_blip": "description from blip",
-        "clip_score": score
-    }
+    try:
+        img = Image.open(f"{IMAGE_DIR}/{data['image_name']}")
+        text_blip=request.app.state.blip_img_analyzer.generate_caption(img)
+        return {
+            "status": "ok",
+            "filename": data['image_name'],
+            "text_blip": text_blip,
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}

@@ -10,7 +10,9 @@ class BlipCaption:
     def generate_caption(self, image: Image.Image, text: str = None) -> str:
         inputs = self.processor(image, text, return_tensors="pt") if text else self.processor(image, return_tensors="pt")
         out = self.model.generate(**inputs)
-        return self.processor.decode(out[0], skip_special_tokens=True)
+        generated_caption = self.processor.decode(out[0], skip_special_tokens=True)
+        print("Generated caption:", generated_caption)
+        return generated_caption
 
 # img_url = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/demo.jpg' 
 # raw_image = Image.open(requests.get(img_url, stream=True).raw).convert('RGB')
