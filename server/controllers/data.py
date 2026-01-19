@@ -27,6 +27,6 @@ async def get_img(
 async def list_images():
     try:
         images = os.listdir(DIR_PATH)
-        return {"status": "ok", "images": images}
+        return {"status": "ok", "images": [{"url": img, "filename": img} for img in images]}
     except Exception as e:
         return {"status": "error", "message": str(e)}
