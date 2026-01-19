@@ -14,7 +14,8 @@
   <form id="verify-form">
     <!-- Image Upload Card -->
     <div class="card">
-      <div class="section-header">Image Upload</div>
+      <div class="section-header">Images Area</div>
+      <div class="images-gallery"></div>
       <label for="imageInput" class="upload-label">
         <div class="upload-icon">📸</div>
         <div class="upload-text">Click to select image</div>
@@ -26,7 +27,10 @@
 
     <!-- Description Card -->
     <div class="card">
-      <div class="section-header">Image Description</div>
+      <div class="section-header">Image Description
+      <p id="clip_condition">up to 77 characters</p>
+
+      </div>
       <textarea 
         id="textInput" 
         placeholder="Describe the image in detail...
@@ -42,8 +46,15 @@
     <div class="card">
       <div class="section-header">Verification Results
       </div>
-      <div id="clip_score"></div>
-      <div id="blip_text"></div>
+      <div id="result">
+        <div id="clip_result">
+          <span id="clip_score"></span>
+        </div>
+        <div id="blip_result">
+          <span id="blip_text"></span>
+        </div>
+      </div>
+      
     </div>
   </form>
 

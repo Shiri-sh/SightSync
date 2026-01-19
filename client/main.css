@@ -107,7 +107,10 @@ body > p {
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
-
+img{
+  width: 100px;
+  height: 100px;
+}
 /* Preview image */
 .image-preview {
   max-width: 100%;
