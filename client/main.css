@@ -274,7 +274,7 @@ button[type="submit"]:disabled {
   flex: 1;
   overflow-y: auto;
   min-height: 300px;
-  max-height: 400px;
+  max-height: 500px;
 }
 
 .result-section {
