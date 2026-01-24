@@ -14,18 +14,21 @@ async def upload_img(
         with open(path, "wb") as f:
             f.write(await image.read())
 
+        if images.find_one({"filename": image.filename}):
+            return {"status": "ok", "filename": image.filename}
+
         doc = {
-            "filename": image.filename,
-            "url": f"{image.filename}",
-            "embedding": None,
-            "captions": [],
-            "created_at": datetime.utcnow()
-        }
+                "filename": image.filename,
+                "url": f"{image.filename}",
+                "embedding": None,
+                "captions": [],
+                "created_at": datetime.now()
+              }
 
         images.insert_one(doc)
 
         return {"status": "ok", "filename": image.filename}
-    
+
     except Exception as e:
         return {"status": "error", "message": str(e)}
 async def get_img(
