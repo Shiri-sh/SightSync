@@ -17,12 +17,14 @@ async def clip_score(
 
         img_emb = request.app.state.clip_scorer.image_embedding(img)
 
+        img_emb = img_emb.squeeze().tolist()
+        
         if images.find_one({"filename": data['image_name']}).get("embedding") is not None:
             images.update_one({"filename": data['image_name']}, {"$set": {"embedding": img_emb}})
 
         score = request.app.state.clip_scorer.score(img, data['text'])
         status_score = get_status_from_score(score)
-        
+
         return {
             "status": "ok",
             "filename": data['image_name'],
