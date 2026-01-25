@@ -7,6 +7,8 @@ const blipTextDiv = document.getElementById('blip_text');
 const imagesGallery = document.querySelector('.images-gallery');
 const selectedImageNameSpan = document.getElementById('selectedImageName');
 const selectedImageInfo = document.querySelector('.selected-image-info');
+const searchInput = document.querySelector('.search-input');
+
 let filename = null;
 let selectedImageElement = null;
 let isUploadedImage = false;
@@ -32,6 +34,22 @@ async function getAllimages() {
     console.log("Error fetching images:", error);
     imagesGallery.innerHTML = '<p style="color: #a0826d; text-align: center; padding: 2rem;">Error loading images</p>';
   }
+}
+async function searchImages(e){
+    e.preventDefault();
+   if(!searchInput.value) return;
+  
+   try {
+     const searchResponse = await fetch("http://localhost:8000/clip/img_by_description", {
+       method: "POST",
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ text: searchInput.value }),
+     });
+     const data = await searchResponse.json();
+     console.log("Search results:", data);
+   } catch (error) {
+     console.log("Error searching images:", error);
+   }
 }
 
 // Function to handle image selection
@@ -104,7 +122,7 @@ imageInput.addEventListener('change', async function (e) {
   }
 });
 
-getAllimages();
+// setInterval(getAllimages, 5000); 
 
 async function clipVerifyScore(filename, text) {
   try {

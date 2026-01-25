@@ -10,8 +10,24 @@
 
   <h1>SIGHTSYNC</h1>
   <p>Upload your image and description to get a verification response</p>
-  
+
+  <div class="card search-card">
+      <div class="section-header">Search Images By Description</div>
+      <div class="search-box">
+        <input 
+          type="text" 
+          id="textInput" 
+          class="search-input"
+          placeholder="your description..." 
+          required  
+        />
+        <button type="button" id="searchButton" onclick="searchImages(event)">Search</button>
+      </div>
+      <div class="search-results">Images will appear here...</div>
+    </div>
+
   <form id="verify-form">
+    
     <!-- Image Gallery Card -->
     <div class="card">
       <div class="section-header">Select or Upload Image</div>

@@ -51,6 +51,16 @@ body > p {
   min-height: 500px;
   max-height: 600px;
 }
+.search-card {
+  display:flex;
+  background: #9d8a73;
+
+}
+.search-results{
+  min-width: 200px;
+  width: 50%;
+  gap: 1rem;
+}
 
 .card:hover {
   transform: translateY(-4px);
