@@ -57,7 +57,7 @@ body > p {
 /* Search Input Area - Right Side */
 .search-input-area {
   display: flex;
-  flex-direction: column;
+  flex-direction:row;
   gap: 1.5rem;
 }
 
@@ -94,7 +94,7 @@ body > p {
 }
 
 .search-button {
-  width: 100%;
+  width: 10%;
   background: linear-gradient(135deg, #f9f6f1 0%, #e8dfd5 100%);
   color: #5a4a3a;
   border: none;
