@@ -1,107 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIGHTSYNC - Image Verification</title>
-  <link rel="stylesheet" href="main.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGHTSYNC - Image Verification</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
+    <h1>SIGHTSYNC</h1>
 
-  <h1>SIGHTSYNC</h1>
-  <p>Upload your image and description to get a verification response</p>
+    <!-- Search Section - Full Width Above -->
 
-  <div class="card search-card">
-      <div class="section-header">Search Images By Description</div>
-      <div class="search-box">
-        <input 
-          type="text" 
-          id="textInput" 
-          class="search-input"
-          placeholder="your description..." 
-          required  
-        />
-        <button type="button" id="searchButton" onclick="searchImages(event)">Search</button>
-      </div>
-      <div class="search-results">Images will appear here...</div>
+    <div class="search-section">
+        <p class="section-header"> Search Images By Description </p>
+
+        <div class="search-card">
+            <div class="search-input-area">
+                <input 
+                    type="text" 
+                    id="textInput" 
+                    placeholder="Enter description to search images..."
+                    maxlength="77"
+                />
+                <button type="button" id="searchBtn" class="search-button">Search</button>
+            </div>
+            
+            <div class="search-results-area">
+                <!-- <h3 class="results-header">Search Results</h3> -->
+                <div class="search-results-grid" id="searchResults">
+                    <p class="empty-state">Images will appear here...</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-  <form id="verify-form">
-    
-    <!-- Image Gallery Card -->
-    <div class="card">
-      <div class="section-header">Select or Upload Image</div>
-      
-      <!-- Upload Section -->
-      <label for="imageInput" class="upload-label">
-        <div class="upload-icon">📤</div>
-        <div class="upload-text">Upload New Image</div>
-        <div class="upload-subtext">PNG, JPG, GIF up to 10MB</div>
-      </label>
-      <input type="file" id="imageInput" accept="image/*" />
-      
-      <!-- Divider -->
-      <div class="gallery-divider">
-        <span>GALLERY</span>
-      </div>
-      
-      <!-- Gallery Section -->
-      <div class="images-gallery"></div>
-      
-      <!-- Selected Image Info -->
-      <div class="selected-image-info">
-        <span id="selectedImageName">No image selected</span>
-      </div>
-    </div>
 
-    <!-- Description Card -->
-    <div class="card">
-      <div class="section-header">Image Description
-        <p id="clip_condition">up to 77 characters</p>
-      </div>
-      <textarea 
-        id="textInput" 
-        placeholder="Describe the image in detail..."
-        required
-      ></textarea>
-      <button type="submit">Verify Match</button>
-    </div>
+    <p>Upload your image and description to get a verification response</p>
 
-    <!-- Results Card -->
-    <div class="card">
-      <div class="section-header">Verification Results</div>
-      <div id="result">
-        <!-- CLIP Score Section -->
-        <div class="result-section clip-section">
-          <div class="result-header">
-            <span class="result-icon"></span>
-            <h3>CLIP Score</h3>
-          </div>
-          <div class="result-content">
-            <div id="clip_score" class="result-value"></div>
-            <p class="result-description">Measures how well the image matches your description</p>
-          </div>
+
+    <!-- Main Form Grid - Three Cards Below -->
+    <form id="verify-form">
+        <!-- Gallery Card -->
+        <div class="card gallery-card">
+            <h2 class="section-header">Select or Upload Image</h2>
+            
+            <input type="file" id="imageInput" accept="image/*">
+            <label for="imageInput" class="upload-label">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Upload New Image</div>
+                <div class="upload-subtext">PNG, JPG, GIF up to 10MB</div>
+            </label>
+
+            <div class="gallery-divider">
+                <span>GALLERY</span>
+            </div>
+
+            <div class="images-gallery" id="imagesGallery">
+                <!-- Gallery images will be loaded here -->
+            </div>
+
+            <div class="selected-image-info" id="selectedImageInfo">
+                <span id="selectedImageName">No image selected</span>
+            </div>
         </div>
 
-        <!-- Divider -->
-        <div class="result-divider"></div>
-
-        <!-- BLIP Analysis Section -->
-        <div class="result-section blip-section">
-          <div class="result-header">
-            <span class="result-icon"></span>
-            <h3>BLIP Analysis</h3>
-          </div>
-          <div class="result-content">
-            <div id="blip_text" class="result-value"></div>
-            <p class="result-description">AI-generated description of what's in the image</p>
-          </div>
+        <!-- Text Input Card -->
+        <div class="card text-card">
+            <h2 class="section-header">
+                Image Description
+                <span id="clip_condition">up to 77 characters</span>
+            </h2>
+            <textarea 
+                id="textInput" 
+                placeholder="Enter your image description here..."
+                maxlength="77"
+            ></textarea>
+            <button type="submit">Verify Match</button>
         </div>
-      </div>
-    </div>
-  </form>
 
-  <script src="main.js"></script>
-  
+        <!-- Results Card -->
+        <div class="card results-card">
+            <h2 class="section-header">Verification Results</h2>
+            <div id="result">
+                <div class="result-section clip-section">
+                    <div class="result-header">
+                        <span class="result-icon">📊</span>
+                        <h3>CLIP Score</h3>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-value" id="clipScore"></div>
+                        <p class="result-description">Measures how well the image matches your description</p>
+                    </div>
+                </div>
+
+                <div class="result-divider"></div>
+
+                <div class="result-section blip-section">
+                    <div class="result-header">
+                        <span class="result-icon">🤖</span>
+                        <h3>BLIP Analysis</h3>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-value" id="blipText"></div>
+                        <p class="result-description">AI-generated description of what's in the image</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="script.js"></script>
 </body>
 </html>
