@@ -47,13 +47,13 @@ def img_by_description(
         results = []
         # iterate over images that have embeddings stored
         cursor = images.find({"embedding": {"$exists": True}})
+        print("cursor found", cursor)
         for doc in cursor:
             db_emb = doc.get("embedding")
             if not db_emb:
                 continue
             db_vec = torch.tensor(db_emb)
-            # compute dot product (embeddings expected to be normalized)
-            score = float(torch.dot(db_vec, text_vec).item())
+            score = request.app.state.clip_scorer.cosine_similarity(text_vec, db_vec)
             status = get_status_from_score(score)
             # include only images that are considered a match by the status function
             if status != "no match. Please try again.":

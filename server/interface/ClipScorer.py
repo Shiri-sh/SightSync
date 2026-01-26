@@ -25,23 +25,18 @@ class ClipScorer:
             image_features = image_features / image_features.norm(dim=-1, keepdim=True)
         return image_features
 
+    def cosine_similarity(self, vec_a, vec_b):
+        with torch.inference_mode():
+            similarity = (vec_a @ vec_b.T).item()
+        return similarity
+
     def score(self, img, text):
-        #inputs = self.processor(text=[text], images=img, return_tensors="pt", padding=True)
-
-        # image_inputs = self.processor(images=img, return_tensors="pt")
-        # text_inputs = self.processor(text=[text], return_tensors="pt", padding=True)
-
-        # with torch.inference_mode():
-        #     image_features = self.model.get_image_features(**image_inputs)
-        #     text_features = self.model.get_text_features(**text_inputs)
-
-        #     image_features = image_features / image_features.norm(dim=-1, keepdim=True)
-        #     text_features = text_features / text_features.norm(dim=-1, keepdim=True)
 
         image_features = self.image_embedding(img)
         text_features = self.text_embedding(text)
 
-        score = (image_features @ text_features.T).item()
-            
+        score = self.cosine_similarity(image_features, text_features)
+
         print("Score:", score)
         return score
+    
