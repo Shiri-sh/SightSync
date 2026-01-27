@@ -7,7 +7,7 @@ const blipTextDiv = document.getElementById('blip_text');
 const imagesGallery = document.querySelector('.images-gallery');
 const selectedImageNameSpan = document.getElementById('selectedImageName');
 const selectedImageInfo = document.querySelector('.selected-image-info');
-const searchInput = document.querySelector('.search-input');
+const searchInput = document.querySelector('#searchInput');
 
 let filename = null;
 let selectedImageElement = null;
