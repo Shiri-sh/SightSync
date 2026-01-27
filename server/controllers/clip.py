@@ -1,6 +1,5 @@
 from fastapi import  Form, Request
-#from server.server.clipScorer import *
-# from server.interface.ClipScorer import ClipScorer
+
 from PIL import Image
 from mongoDB import images
 from services import get_status_from_score
@@ -15,14 +14,16 @@ async def clip_score(
         
         img = Image.open(f"{IMAGE_DIR}/{data['image_name']}")
 
-        img_emb = request.app.state.clip_scorer.image_embedding(img)
+        # img_emb = request.app.state.clip_scorer.image_embedding(img)
 
-        img_emb = img_emb.squeeze().tolist()
+        # img_emb = img_emb.squeeze().tolist()
 
-        if images.find_one({"filename": data['image_name']}).get("embedding") is not None:
-            images.update_one({"filename": data['image_name']}, {"$set": {"embedding": img_emb}})
+        # if images.find_one({"filename": data['image_name']}).get("embedding") is None:
+        #     images.update_one({"filename": data['image_name']}, {"$set": {"embedding": img_emb}})
+        img_emb=images.find_one({"filename": data['image_name']}).get("embedding")
+        text_emb= request.app.state.clip_scorer.text_embedding(data['text'])
 
-        score = request.app.state.clip_scorer.score(img, data['text'])
+        score = request.app.state.clip_scorer.cosine_similarity(img_emb, text_emb)
         status_score = get_status_from_score(score)
 
         return {
@@ -40,32 +41,32 @@ def img_by_description(
     data: dict
 ):
     try:
-        # get normalized text embedding (1 x D)
         text_embedding = request.app.state.clip_scorer.text_embedding(data['text'])
         text_vec = text_embedding.squeeze()  # shape: (D,)
 
         results = []
         # iterate over images that have embeddings stored
         cursor = images.find({"embedding": {"$exists": True}})
-        print("cursor found", cursor)
-        for doc in cursor:
+        docs=list(cursor)
+
+        for doc in docs:
             db_emb = doc.get("embedding")
             if not db_emb:
                 continue
             db_vec = torch.tensor(db_emb)
             score = request.app.state.clip_scorer.cosine_similarity(text_vec, db_vec)
             status = get_status_from_score(score)
-            # include only images that are considered a match by the status function
-            if status != "no match. Please try again.":
+
+            # include only images that are considered a match
+            if score > 0.2:
                 results.append({
                     "filename": doc.get("filename"),
                     "score": score,
                     "status": status
                 })
 
-        # sort by descending score
         results.sort(key=lambda x: x['score'], reverse=True)
-
+        
         return {"status": "ok", "matches": results}
     except Exception as e:
         return {"status": "error", "message": str(e)}
