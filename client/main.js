@@ -8,7 +8,7 @@ const imagesGallery = document.querySelector('.images-gallery');
 const selectedImageNameSpan = document.getElementById('selectedImageName');
 const selectedImageInfo = document.querySelector('.selected-image-info');
 const searchInput = document.querySelector('#searchInput');
-
+const resultsContainer=document.querySelector('#searchResults');
 let filename = null;
 let selectedImageElement = null;
 let isUploadedImage = false;
@@ -38,7 +38,7 @@ async function getAllimages() {
 async function searchImages(e){
     e.preventDefault();
    if(!searchInput.value) return;
-  
+   resultsContainer.innerHTML = '';
    try {
      const searchResponse = await fetch("http://localhost:8000/clip/img_by_description", {
        method: "POST",
@@ -47,6 +47,28 @@ async function searchImages(e){
      });
      const data = await searchResponse.json();
      console.log("Search results:", data);
+     
+    if (!data.matches || data.matches.length === 0) {
+      resultsContainer.innerHTML =
+        "<p class='empty-state'>No matching images found.</p>";
+      return;
+    }
+
+    resultsContainer.innerHTML = "";
+
+    data.matches.forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "image-result-card";
+
+      card.innerHTML = `
+        <img src="http://localhost:8000/images/${item.filename}" alt="${item.filename}" />
+        <div class="image-meta">
+          <p class="filename">${item.filename}</p>
+        </div>
+      `;
+
+      resultsContainer.appendChild(card);
+    });
    } catch (error) {
      console.log("Error searching images:", error);
    }
