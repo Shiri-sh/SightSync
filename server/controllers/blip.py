@@ -9,9 +9,11 @@ async def blip_img_anlz(
 ):
     try:
         img = Image.open(f"{IMAGE_DIR}/{data['image_name']}")
+
         text_blip=request.app.state.blip_img_analyzer.generate_caption(img)
         
         clip_score=request.app.state.clip_scorer.score(img, text_blip)
+        
         if clip_score > 0.2:
         # Append the new caption object and keep only the most recent 3 captions
             images.update_one(
