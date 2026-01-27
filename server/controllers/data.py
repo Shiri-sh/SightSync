@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, Request, UploadFile, File, Form
 from PIL import Image
 import os
 from datetime import datetime
@@ -6,21 +6,28 @@ from mongoDB import images
 
 DIR_PATH = "images/"
 async def upload_img(
+    request: Request,
     image: UploadFile=File(...)
 ):
     try:
         print(image.filename)
         path = f"{DIR_PATH}/{image.filename}"
+        
         with open(path, "wb") as f:
             f.write(await image.read())
 
         if images.find_one({"filename": image.filename}):
             return {"status": "ok", "filename": image.filename}
 
+        img = Image.open(path)
+
+        img_emb = request.app.state.clip_scorer.image_embedding(img)
+        img_emb = img_emb.squeeze().tolist()
+
         doc = {
                 "filename": image.filename,
                 "url": f"{image.filename}",
-                "embedding": None,
+                "embedding": img_emb,
                 "captions": [],
                 "created_at": datetime.now()
               }
