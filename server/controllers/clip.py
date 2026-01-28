@@ -12,16 +12,9 @@ async def clip_score(
 ):
     try:
         
-        img = Image.open(f"{IMAGE_DIR}/{data['image_name']}")
-
-        # img_emb = request.app.state.clip_scorer.image_embedding(img)
-
-        # img_emb = img_emb.squeeze().tolist()
-
-        # if images.find_one({"filename": data['image_name']}).get("embedding") is None:
-        #     images.update_one({"filename": data['image_name']}, {"$set": {"embedding": img_emb}})
-        img_emb=images.find_one({"filename": data['image_name']}).get("embedding")
-        text_emb= request.app.state.clip_scorer.text_embedding(data['text'])
+        img_emb = images.find_one({"filename": data['image_name']}).get("embedding")
+        img_emb = torch.tensor(img_emb)
+        text_emb = request.app.state.clip_scorer.text_embedding(data['text'])
 
         score = request.app.state.clip_scorer.cosine_similarity(img_emb, text_emb)
         status_score = get_status_from_score(score)
@@ -33,6 +26,7 @@ async def clip_score(
             "analyze_score": status_score,
             "score": score
         }
+    
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
