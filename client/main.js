@@ -9,6 +9,7 @@ const selectedImageNameSpan = document.getElementById('selectedImageName');
 const selectedImageInfo = document.querySelector('.selected-image-info');
 const searchInput = document.querySelector('#searchInput');
 const resultsContainer=document.querySelector('#searchResults');
+const blipResultDiv = document.getElementsByClassName('result-content');
 let filename = null;
 let selectedImageElement = null;
 let isUploadedImage = false;
@@ -81,11 +82,9 @@ window.selectImage = function(imgElement, imgFilename) {
     selectedImageElement.classList.remove('selected');
   }
   
-  // Add selection to clicked image
   imgElement.classList.add('selected');
   selectedImageElement = imgElement;
   
-  // Update filename
   filename = imgFilename;
   isUploadedImage = false; // This is from gallery, not uploaded
   
@@ -175,6 +174,20 @@ async function blipImgAnalyze(filename) {
     throw `Error getting BLIP analysis: ${error.message}`;
   }
 }
+function handleBlipResult(blip_data) {
+  if (blip_data.status === "ok") {
+    blipTextDiv.textContent = blip_data.text_blip;
+  } else {
+    blipTextDiv.textContent = `Error: ${blip_data.message}`;
+  }
+}
+function handleClipResult(clip_data) {
+  if (clip_data.status === "ok") {
+    clipScoreDiv.textContent = `${clip_data.analyze_score}`;
+  } else {
+    clipScoreDiv.textContent = `Error: ${clip_data.message}`;
+  }
+}
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -203,21 +216,23 @@ form.addEventListener("submit", async (e) => {
 
     // Get CLIP score
     const clip_data = await clipVerifyScore(filename, text);
-    if (clip_data.status === "ok") {
-      clipScoreDiv.textContent = `${clip_data.analyze_score}`;
-    } else {
-      clipScoreDiv.textContent = `Error: ${clip_data.message}`;
-    }
+    handleClipResult(clip_data);
 
     // Get BLIP analysis
-    const blip_data = await blipImgAnalyze(filename, text);
-    if (blip_data.status === "ok") {
-      blipTextDiv.textContent = blip_data.text_blip;
-    } else {
-      blipTextDiv.textContent = `Error: ${blip_data.message}`;
-    }
+    const blip_data = await blipImgAnalyze(filename);
+    handleBlipResult(blip_data);
 
     result.removeChild(loading);
+    tryAgainBtn=document.createElement("button");
+    tryAgainBtn.textContent="Try Again";
+    tryAgainBtn.onclick=async()=>{
+      blipTextDiv.textContent = "Analyzing...";
+      const blip_data = await blipImgAnalyze(filename);
+      handleBlipResult(blip_data);
+    };
+    
+    blipResultDiv.appendChild(tryAgainBtn);
+
   } catch (error) {
     alert("Something went wrong");
     console.log(error);
