@@ -2,14 +2,14 @@ const form = document.getElementById("verify-form");
 const imageInput = document.getElementById("imageInput");
 const textInput = document.getElementById("textInput");
 const result = document.getElementById("result");
-const clipScoreDiv = document.getElementById('clip_score');
-const blipTextDiv = document.getElementById('blip_text');
+const clipScoreDiv = document.getElementById('clipScore');
+const blipTextDiv = document.getElementById('blipText');
 const imagesGallery = document.querySelector('.images-gallery');
 const selectedImageNameSpan = document.getElementById('selectedImageName');
 const selectedImageInfo = document.querySelector('.selected-image-info');
 const searchInput = document.querySelector('#searchInput');
 const resultsContainer=document.querySelector('#searchResults');
-const blipResultDiv = document.getElementsByClassName('result-content');
+const blipResultDiv = document.getElementById('blipResult');
 let filename = null;
 let selectedImageElement = null;
 let isUploadedImage = false;
@@ -36,6 +36,7 @@ async function getAllimages() {
     imagesGallery.innerHTML = '<p style="color: #a0826d; text-align: center; padding: 2rem;">Error loading images</p>';
   }
 }
+getAllimages();
 async function searchImages(e){
     e.preventDefault();
    if(!searchInput.value) return;
@@ -224,6 +225,7 @@ form.addEventListener("submit", async (e) => {
 
     result.removeChild(loading);
     tryAgainBtn=document.createElement("button");
+    tryAgainBtn.type="submit";
     tryAgainBtn.textContent="Try Again";
     tryAgainBtn.onclick=async()=>{
       blipTextDiv.textContent = "Analyzing...";
