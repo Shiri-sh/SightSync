@@ -232,8 +232,8 @@ form.addEventListener("submit", async (e) => {
       const blip_data = await blipImgAnalyze(filename);
       handleBlipResult(blip_data);
     };
-    
-    blipResultDiv.appendChild(tryAgainBtn);
+
+    if (!blipResultDiv.contains(tryAgainBtn)) blipResultDiv.appendChild(tryAgainBtn);
 
   } catch (error) {
     alert("Something went wrong");
