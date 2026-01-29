@@ -15,14 +15,16 @@
         <p class="section-header"> Search Images By Description </p>
 
         <div class="search-card">
-            <div class="search-input-area">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    placeholder="Enter up to 77 characters to search images ..."
+            <form id="searchForm">
+                <div class="search-input-area">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Enter up to 77 characters to search images ..."
                     maxlength="77"
                 />
-                <button type="button" id="searchBtn" class="search-button" onclick="searchImages(event)">Search</button>
+                <button type="submit" id="searchBtn" class="search-button">Search</button>
+
             </div>
             
             <div class="search-results-area">
@@ -31,6 +33,7 @@
                     <p class="empty-state">Images will appear here...</p>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 
@@ -109,6 +112,6 @@
         </div>
     </form>
 
-    <script src="main.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>
