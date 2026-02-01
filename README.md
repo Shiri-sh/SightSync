@@ -13,30 +13,29 @@ Displays the result clearly in the browser
 Tech Stack
 
 Frontend
-HTML
-CSS
-JavaScript
+HTML, 
+CSS, 
+JavaScript, 
 
 Backend
-Python
-REST API (HTTP-based communication)
-AI / ML
-Hugging Face (Vision models for image analysis)
+Python, FastAPI, 
+REST API (HTTP-based communication), 
+Hugging Face (Clip, Blip models)
 
 MongoDB for storing the gallery of images
 
 Key Features
 
-Client–server architecture
-Integration with an external AI service (Hugging Face)
-Image upload handling
-Asynchronous communication between frontend and backend
-Clean separation between UI logic and business logic
+Client–server architecture, 
+Integration with an external AI service (Hugging Face), 
+Image upload handling, 
+Asynchronous communication between frontend and backend, 
+Clean separation between UI logic and business logic, 
 
 Why This Project Matters
 
 This project showcases:
-Practical experience with full-stack web development
-Real-world usage of AI APIs
+Practical experience with full-stack web development, 
+Real-world usage of AI APIs, 
 Working with image data and external ML services
 Designing a production-style workflow between frontend, backend, and AI models
