@@ -2,7 +2,9 @@ from fastapi import FastAPI, Request, UploadFile, File, Form
 from PIL import Image
 import os
 from datetime import datetime
-from mongoDB import images
+
+# from httpx import request
+# from mongoDB import images
 
 DIR_PATH = "images/"
 async def upload_img(
@@ -16,7 +18,7 @@ async def upload_img(
         with open(path, "wb") as f:
             f.write(await image.read())
 
-        if images.find_one({"filename": image.filename}):
+        if request.app.state.images.find_one({"filename": image.filename}):
             return {"status": "ok", "filename": image.filename}
 
         img = Image.open(path)
@@ -32,18 +34,19 @@ async def upload_img(
                 "created_at": datetime.now()
               }
 
-        images.insert_one(doc)
+        request.app.state.images.insert_one(doc)
 
         return {"status": "ok", "filename": image.filename}
 
     except Exception as e:
         return {"status": "error", "message": str(e)}
 async def get_img(
+    request: Request,
     filename: str = Form(...)
 ):
     try:
         # path = f"{DIR_PATH}/{filename}"
-        image_doc =  images.find_one({"filename": filename})
+        image_doc =  request.app.state.images.find_one({"filename": filename})
         if image_doc:
             return {"status": "ok", "filename": filename, "url": image_doc["url"]}
         else:
@@ -51,9 +54,11 @@ async def get_img(
     except Exception as e:
         return {"status": "error", "message": str(e)}
     
-async def list_images():
+async def list_images(
+       request: Request
+):
     try:
-        images_list = images.find()
+        images_list = request.app.state.images.find()
         return {"status": "ok", "images": [{"url": img["url"], "filename": img["filename"]} for img in images_list]}
     except Exception as e:
         return {"status": "error", "message": str(e)}
