@@ -1,6 +1,8 @@
 
 import os, certifi, ssl
-
+from pymongo.mongo_client import MongoClient
+from dotenv import load_dotenv
+load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -16,9 +18,14 @@ from contextlib import asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.clip_scorer = ClipScorer()
     app.state.blip_img_analyzer = BlipCaption()
+    app.state.mongo_client = MongoClient(os.getenv("URI"))
+    app.state.db = app.state.mongo_client["images_db"]
+    app.state.images = app.state.db["images"]
     yield
     app.state.clip_scorer = None
     app.state.blip_img_analyzer = None
+    app.state.mongo_client.close()
+
 
 app = FastAPI(title="SIGHTSYNC MVP", lifespan=lifespan)
 
