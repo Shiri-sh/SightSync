@@ -1,4 +1,4 @@
-import { listImages, blipImgAnalyze, uploadImageFile,clipVerifyScore,searchByDescription} from './api.js';
+import { listImages, blipImgAnalyze, uploadImageFile,clipVerifyScore} from './api.js';
 import { initSearch } from './search.js';
 const verifyForm = document.getElementById("verify-form");
 const imageInput = document.getElementById("imageInput");
@@ -16,7 +16,6 @@ const searchForm = document.getElementById('searchForm');
 
 let filename = null;
 let selectedImageElement = null;
-let isUploadedImage = false;
 let tryAgainBtn = null;
 
 
@@ -170,7 +169,4 @@ verifyForm.addEventListener("submit", async (e) => {
   }
 });
 
-
-// Expose to global for inline onclick in HTML
-// window.searchImages = searchImages;
 initSearch(searchForm, searchInput, resultsContainer);
