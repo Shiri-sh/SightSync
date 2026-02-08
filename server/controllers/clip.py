@@ -1,7 +1,7 @@
 from fastapi import  Form, Request
 
 from PIL import Image
-from mongoDB import images
+# from mongoDB import images
 from services import get_status_from_score
 import torch
 
@@ -12,7 +12,7 @@ async def clip_score(
 ):
     try:
         
-        img_emb = images.find_one({"filename": data['image_name']}).get("embedding")
+        img_emb = request.app.state.images.find_one({"filename": data['image_name']}).get("embedding")
         img_emb = torch.tensor(img_emb)
         text_emb = request.app.state.clip_scorer.text_embedding(data['text'])
 
@@ -40,7 +40,7 @@ def img_by_description(
 
         results = []
         # iterate over images that have embeddings stored
-        cursor = images.find({"embedding": {"$exists": True}})
+        cursor = request.app.state.images.find({"embedding": {"$exists": True}})
         docs=list(cursor)
 
         for doc in docs:

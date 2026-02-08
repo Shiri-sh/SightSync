@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Form,Request
-from mongoDB import images
+# from mongoDB import images
 from PIL import Image
 IMAGE_DIR = "images"
 
@@ -16,7 +16,7 @@ async def blip_img_anlz(
         
         if clip_score > 0.2:
         # Append the new caption object and keep only the most recent 3 captions
-            images.update_one(
+            request.app.state.images.update_one(
                 {"filename": data['image_name']},
                 {"$push": {"captions": {"$each": [{"text": text_blip, "clip_score": clip_score}], "$slice": -6}}},
                 upsert=True
