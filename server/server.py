@@ -18,7 +18,7 @@ from contextlib import asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.clip_scorer = ClipScorer()
     app.state.blip_img_analyzer = BlipCaption()
-    app.state.mongo_client = MongoClient(os.getenv("URI"))
+    app.state.mongo_client = MongoClient(os.getenv("URI"), tlsCAFile=certifi.where(), tls=True)
     app.state.db = app.state.mongo_client["images_db"]
     app.state.images = app.state.db["images"]
     yield
